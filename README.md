@@ -4,6 +4,10 @@ This project was primarily created for personal use and for my family. While I m
 
 Note: Built with the assistance of Claude.ai. I’m putting it here now so you don't have to hunt for it below.
 
+<p align="center">
+  <img src="docs/images/logo.png" alt="soullink9 logo" width="200">
+</p>
+
 # Home Assistant Custom Components
 
 My custom integrations for Home Assistant, all in one place. Each one is set up entirely in the UI: no YAML and no
