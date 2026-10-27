@@ -1,0 +1,24 @@
+{
+  "domain": "life_rpg",
+  "name": "Life RPG",
+  "after_dependencies": [
+    "ai_task",
+    "conversation"
+  ],
+  "codeowners": [
+    "@soullink9"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "frontend",
+    "http",
+    "panel_custom",
+    "websocket_api"
+  ],
+  "documentation": "https://github.com/soullink9/HomeAssistant-Custom_Components/tree/main/docs/life_rpg",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/soullink9/HomeAssistant-Custom_Components/issues",
+  "requirements": [],
+  "version": "1.0.2"
+}

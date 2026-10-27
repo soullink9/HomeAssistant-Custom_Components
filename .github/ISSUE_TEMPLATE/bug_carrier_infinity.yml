@@ -1,0 +1,49 @@
+name: "Bug: Carrier Infinity (Cloud)"
+description: Something in the Carrier integration isn't working as it should.
+labels: [bug, carrier_infinity]
+body:
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Home Assistant (Settings → About) and this integration ("version" in custom_components/carrier_infinity/manifest.json).
+      placeholder: Home Assistant 2026.9.4, Carrier Infinity (Cloud) 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: thermostat
+    attributes:
+      label: Thermostat
+      description: Model and software version, from the thermostat's About screen (or the device page in Home Assistant).
+      placeholder: SYSTXCCITC01-C, CESR131755-02.10
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what you expected
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to make it happen
+      description: The steps, if you know them.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part
+      options:
+        - Setup or password
+        - Thermostat (modes, temperatures, presets, fan)
+        - Updates are slow or missing
+        - Outdoor temperature
+        - Electricity meter
+        - Something else
+  - type: textarea
+    id: log
+    attributes:
+      label: Debug log
+      description: >
+        On the integration's page, choose Enable debug logging, reproduce the problem, then Disable debug logging to
+        download the log. The integration keeps your password and tokens out of it, but check it before posting:
+        it contains your thermostat's serial number.
+      render: text

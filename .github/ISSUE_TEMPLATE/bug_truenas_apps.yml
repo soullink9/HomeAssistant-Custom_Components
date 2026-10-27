@@ -1,0 +1,40 @@
+name: "Bug: TrueNAS Apps"
+description: Something in TrueNAS Apps isn't working as it should.
+labels: [bug, truenas_apps]
+body:
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Home Assistant (Settings → About), TrueNAS (Dashboard) and this integration (the version is on the TrueNAS Apps integration page).
+      placeholder: Home Assistant 2026.9.4, TrueNAS 25.10.7, TrueNAS Apps 1.0.0
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what you expected
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to make it happen
+      description: The steps, if you know them.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part
+      options:
+        - Setup, reconfigure or API key
+        - App status or the on/off switch
+        - Restart or Force recreate buttons
+        - Updates (app or TrueNAS)
+        - Pool usage
+        - Something else
+  - type: textarea
+    id: log
+    attributes:
+      label: Log
+      description: Settings → System → Logs, search for truenas_apps. Remove API keys and anything private before pasting.
+      render: text

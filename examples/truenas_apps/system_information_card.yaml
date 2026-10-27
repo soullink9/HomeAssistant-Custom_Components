@@ -1,0 +1,41 @@
+# Example Markdown card that looks like TrueNAS's System Information panel.
+# Dashboard > Edit > Add card > Manual, then paste this. Built-in card only (no HACS, no JavaScript).
+# It reads the attributes of update.truenas; change the id on the 'set u' line if yours differs.
+# Docs: https://github.com/soullink9/HomeAssistant-Custom_Components/blob/main/docs/truenas_apps/System-Information-Card.md
+type: markdown
+title: System Information
+content: >
+  {% set u = 'update.truenas' %}
+
+  {% set v = state_attr(u, 'installed_version') %}
+
+  {% set name = state_attr(u, 'version_name') %}
+
+  {% set ents = integration_entities('truenas_apps') %}
+
+  {% set apps = ents | select('match', 'switch.') | list %}
+
+  {% set pools = ents | select('match', 'sensor.*_usage') | list %}
+
+  {% set app_updates = ents | select('match', 'update.') | reject('eq', u) |
+  select('is_state', 'on') | list %}
+
+  | | |
+
+  |:--|:--|
+
+  | **Platform** | {{ state_attr(u, 'platform') or '—' }} |
+
+  | **Edition** | {{ state_attr(u, 'edition') or '—' }} |
+
+  | **Version** | {{ (v ~ (' - ' ~ name if name else '')) if v else '—' }} |
+
+  | **Hostname** | {{ state_attr(u, 'hostname') or '—' }} |
+
+  | **System update** | {% if is_state(u, 'on') %}⬆️ {{ state_attr(u,
+  'latest_version') }} available{% else %}✅ Up to date{% endif %} |
+
+  | **Apps** | {{ apps | select('is_state', 'on') | list | count }} running / {{
+  apps | count }} total |
+
+  | **App updates** | {{ app_updates | count }} pending |

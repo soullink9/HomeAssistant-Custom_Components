@@ -1,0 +1,127 @@
+# Checks every push and pull request, weekly (to catch Home Assistant changes), and on demand.
+# Everything here except hassfest can also be run locally; see each integration's CONTRIBUTING.md under docs/.
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint and format (ruff), panel scripts (node)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: pip install ruff
+      - run: ruff check
+      - run: ruff format --check
+      - name: Life RPG panel scripts parse
+        run: for f in custom_components/life_rpg/frontend/*.js; do node --check "$f"; done
+
+  hassfest:
+    name: Home Assistant's integration checks (hassfest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: home-assistant/actions/hassfest@master
+
+  carrier_infinity:
+    name: Carrier Infinity (integration tests, 3-year electricity simulation)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: pip install -r tests/carrier_infinity/requirements.txt
+      - run: python tests/carrier_infinity/ha/test_integration.py
+      # every scenario x two seeds, 3 years each (the full check is 30 years: see docs/carrier_infinity/CONTRIBUTING.md)
+      - run: python tests/carrier_infinity/sim_energy.py 3 2
+
+  crafty_controller:
+    name: Crafty Controller (simulation)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python tests/crafty_controller/simulation.py
+
+  cwfis:
+    name: CWFIS (offline simulation)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python tests/cwfis/simulate.py
+
+  life_rpg_engine:
+    name: Life RPG (engine tests, 3-year soak)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python tests/life_rpg/test_game.py
+      # five player profiles x two seeds, 3 years each (the full check is 30 years: see docs/life_rpg/CONTRIBUTING.md)
+      - run: python tests/life_rpg/sim_longrun.py 3 1 2
+
+  life_rpg_home_assistant:
+    name: Life RPG (Home Assistant side, fake ComfyUI and LLM)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install voluptuous pillow
+      - run: python tests/life_rpg/ha/test_integration.py
+      - run: python tests/life_rpg/ha/soak.py 0.5 sdxl
+      - run: python tests/life_rpg/ha/soak.py 0.5 flux_unet
+
+  nationalgrid:
+    name: National Grid (nine-day simulation)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python tests/nationalgrid/test_simulation.py
+
+  truenas_apps:
+    name: TrueNAS Apps (fake TrueNAS, 30 simulated days)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python tests/truenas_apps/test_integration.py 30
+
+  yardian_local:
+    name: Yardian Local (blueprint checks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install pyyaml jinja2
+      - run: python tests/yardian_local/check_blueprint.py

@@ -1,0 +1,56 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Carrier Infinity",
+        "description": "Sign in with the same account you use in the Carrier app.",
+        "data": {
+          "username": "Username",
+          "password": "Password"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Carrier password changed",
+        "description": "Carrier no longer accepts the saved password for {username}. Enter the current password from the Carrier app.",
+        "data": {
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid username or password.",
+      "cannot_connect": "Could not reach the Carrier cloud."
+    },
+    "abort": {
+      "already_configured": "This Carrier account is already set up.",
+      "reauth_successful": "Password updated. Carrier Infinity is reconnecting."
+    }
+  },
+  "entity": {
+    "climate": {
+      "zone": {
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "home": "Home",
+              "away": "Away",
+              "sleep": "Sleep",
+              "wake": "Wake",
+              "manual": "Manual",
+              "vacation": "Vacation",
+              "resume": "Resume schedule"
+            }
+          }
+        }
+      }
+    },
+    "sensor": {
+      "outdoor_temperature": {
+        "name": "Outdoor temperature"
+      },
+      "electricity": {
+        "name": "Electricity"
+      }
+    }
+  }
+}

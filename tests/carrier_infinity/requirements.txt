@@ -1,0 +1,4 @@
+# What the tests need beyond Python 3.14 itself. carrier-api must match the version in manifest.json;
+# Home Assistant itself is not needed (tests/carrier_infinity/ha/stubs.py stands in for it).
+carrier-api==3.6.2
+ruff

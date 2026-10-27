@@ -1,0 +1,44 @@
+# Tooling settings only: Home Assistant installs each integration from its folder in custom_components/,
+# so nothing here is needed to run them. CI (.github/workflows/ci.yml) uses these.
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+# These two never used ruff in their own repositories; they're checked by their simulations and hassfest instead.
+extend-exclude = [
+    "custom_components/crafty_controller",
+    "custom_components/cwfis",
+    "tests/crafty_controller",
+    "tests/cwfis",
+]
+
+[tool.ruff.per-file-target-version]
+# Carrier was built on Python 3.14 (what Home Assistant 2026.9 runs on); the others keep to 3.13 syntax
+"custom_components/carrier_infinity/**" = "py314"
+"tests/carrier_infinity/**" = "py314"
+
+[tool.ruff.lint]
+# pyflakes, pycodestyle, bugbear, import order, simplifications, comprehensions, and a docstring on everything
+select = ["F", "E", "W", "B", "I", "SIM", "C4", "D1"]
+ignore = [
+    "E501",  # the formatter sets line length; long strings, prompts and data rows are left whole
+    "B905",  # zip() without strict=: the pairs in this code are always the same length
+]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true  # Home Assistant's import style
+known-first-party = ["carrier_infinity", "custom_components", "life_rpg", "nationalgrid", "yardian_local"]
+combine-as-imports = true
+
+[tool.ruff.lint.per-file-ignores]
+# tests favour short, direct code; the Home Assistant stand-ins mirror Home Assistant's own classes,
+# so they carry no docstrings of their own
+"tests/carrier_infinity/*" = ["C408", "SIM102", "SIM105", "SIM113", "E741", "E731", "E402"]
+"tests/carrier_infinity/ha/stubs.py" = ["C408", "E402", "E702", "E731", "D1"]
+"tests/life_rpg/*" = ["C408", "SIM102", "SIM105", "SIM113", "E741", "E731"]
+"tests/life_rpg/ha/*" = ["C408", "SIM102", "SIM105", "SIM113", "E741", "E731", "E402", "E702", "D101", "D102", "D105", "D107"]
+"tests/life_rpg/ha/stubs.py" = ["C408", "E402", "E702", "E731", "D1"]
+"tests/nationalgrid/stubs.py" = ["D1"]
+"tests/nationalgrid/test_simulation.py" = ["D101", "D102"]
+"tests/truenas_apps/*" = ["E402", "E731", "D1", "SIM105", "B011"]
+"tests/truenas_apps/stubs/*" = ["E701", "E702", "E401", "E731", "D1", "I001", "F401", "B", "SIM", "C4"]

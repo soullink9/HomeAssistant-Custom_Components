@@ -1,0 +1,39 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "TrueNAS Apps",
+        "data": {
+          "host": "Host (hostname or IP)",
+          "api_key": "API key",
+          "verify_ssl": "Verify SSL certificate"
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigure TrueNAS Apps",
+        "data": {
+          "host": "Host (hostname or IP)",
+          "api_key": "API key",
+          "verify_ssl": "Verify SSL certificate"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Re-authenticate TrueNAS Apps",
+        "data": {
+          "host": "Host (hostname or IP)",
+          "api_key": "API key",
+          "verify_ssl": "Verify SSL certificate"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to TrueNAS",
+      "invalid_auth": "Invalid API key"
+    },
+    "abort": {
+      "already_configured": "This TrueNAS is already configured",
+      "reconfigure_successful": "Settings updated",
+      "reauth_successful": "Re-authentication successful"
+    }
+  }
+}

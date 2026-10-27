@@ -1,0 +1,12 @@
+{
+  "domain": "crafty_controller",
+  "name": "Crafty Controller",
+  "codeowners": ["@soullink9"],
+  "config_flow": true,
+  "documentation": "https://github.com/soullink9/HomeAssistant-Custom_Components/tree/main/docs/crafty_controller",
+  "integration_type": "hub",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/soullink9/HomeAssistant-Custom_Components/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}
